@@ -461,6 +461,18 @@
                 grid-template-columns: 1fr;
             }
         }
+        @media (max-width: 768px) {
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+            .lessons-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-wrap {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
 
         .filtered {
             display: none;
@@ -545,6 +557,7 @@
         }
 
     </style>
+    <link rel="stylesheet" href="@media.css">
 </head>
 <body>
     <nav class="navbar">

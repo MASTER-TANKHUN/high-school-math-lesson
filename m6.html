@@ -94,6 +94,63 @@
             background: #f8fafc;
         }
 
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            min-width: 180px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.8rem 1.2rem;
+            color: #2c3e50;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .dropdown-item:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .dropdown-item:hover {
+            background-color: #3498db;
+            color: #fff;
+            padding-left: 1.5rem;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
         .hero {
             padding: clamp(40px, 6vw, 80px) 0 clamp(32px, 4vw, 48px) 0;
             background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
@@ -486,19 +543,21 @@
             .lessons-grid {
                 grid-template-columns: 1fr;
             }
-            
+        }
+        @media (max-width: 768px) {
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+            .lessons-grid {
+                grid-template-columns: 1fr;
+            }
             .nav-wrap {
                 flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .nav-menu {
-                flex-direction: column;
-                gap: 0;
-                width: 100%;
+                gap: 12px;
             }
         }
     </style>
+    <link rel="stylesheet" href="@media.css">
 </head>
 <body>
     <nav class="navbar">
