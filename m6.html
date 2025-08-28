@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คณิตศาสตร์ ม.6 - คณิตศาสตร์มัธยมปลาย</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #111827;
+            --muted: #6b7280;
+            --line: #e5e7eb;
+            --brand: #0f172a;
+            --radius: 14px;
+            --space: clamp(16px, 2vw, 24px);
+            --container: 1100px;
+        }
+
+        * {
+            font-family: 'Kanit', sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            font-family: 'Kanit', sans-serif;
+            height: 100%;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+            cursor: context-menu;
+            color: var(--ink);
+            background: var(--bg);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        .container {
+            max-width: var(--container);
+            margin-inline: auto;
+            padding-inline: var(--space);
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: #fff;
+            border-bottom: 1px solid var(--line);
+            z-index: 1000;
+        }
+
+        .nav-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px var(--space);
+        }
+
+        .logo {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .logo::before {
+            content: "∑";
+            margin-right: 0.5rem;
+            color: var(--ink);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 18px;
+            list-style: none;
+        }
+
+        .nav-link {
+            display: inline-block;
+            padding: 8px 10px;
+            border-radius: 10px;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .nav-link:hover {
+            background: #f8fafc;
+        }
+
+        .hero {
+            padding: clamp(40px, 6vw, 80px) 0 clamp(32px, 4vw, 48px) 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+        }
+
+        .hero-content {
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--ink), #374151);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            color: var(--muted);
+            font-size: clamp(16px, 1.8vw, 20px);
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-section {
+            padding: clamp(32px, 4vw, 48px) 0;
+            background: #fafafa;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 16px 50px 16px 20px;
+            border: 2px solid var(--line);
+            border-radius: var(--radius);
+            font-size: 16px;
+            font-family: 'Kanit', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--ink);
+            box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            font-size: 18px;
+        }
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--ink);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        .back-home:hover {
+            opacity: 0.7;
+        }
+
+        .content-section {
+            padding: clamp(32px, 4vw, 64px) 0;
+        }
+
+        .section-title {
+            font-size: clamp(22px, 3.6vw, 34px);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-align: center;
+            margin-bottom: clamp(18px, 2vw, 32px);
+        }
+
+        .lessons-section {
+            padding: clamp(20px, 3vw, 40px) 0;
+        }
+
+        .section-title {
+            font-size: clamp(24px, 4vw, 32px);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-align: center;
+            margin-bottom: clamp(24px, 3vw, 32px);
+            color: var(--brand);
+        }
+
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .lesson-card {
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 24px;
+            background: #fff;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-color: var(--brand);
+        }
+
+        .lesson-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .lesson-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--ink);
+        }
+
+        .lesson-subtitle {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        .lesson-description {
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .lesson-topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .topic-tag {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .lesson-arrow {
+            display: block;
+            text-align: right;
+            color: var(--brand);
+            font-weight: 500;
+            margin-top: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .lesson-card:hover .lesson-arrow {
+            transform: translateX(-4px);
+        }
+
+        .videos-section {
+            padding: clamp(40px, 6vw, 80px) 0;
+            background: #fafafa;
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .video-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .video-content {
+            padding: 16px;
+        }
+
+        .video-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--ink);
+            line-height: 1.4;
+        }
+
+        .video-meta {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        .watch-btn {
+            display: inline-block;
+            background: var(--brand);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            border: 2px solid var(--brand);
+            transition: all 0.3s ease;
+        }
+
+        .watch-btn:hover {
+            background: transparent;
+            color: var(--brand);
+        }
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: #fff;
+            border-bottom: 1px solid var(--line);
+            z-index: 1000;
+        }
+
+        .nav-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px var(--space);
+        }
+
+        .logo {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .logo::before {
+            content: "∑";
+            margin-right: 0.5rem;
+            color: var(--ink);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 18px;
+            list-style: none;
+        }
+
+        .nav-link {
+            display: inline-block;
+            padding: 8px 10px;
+            border-radius: 10px;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .nav-link:hover {
+            background: #f8fafc;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            min-width: 180px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.8rem 1.2rem;
+            color: #2c3e50;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .dropdown-item:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .dropdown-item:hover {
+            background-color: #3498db;
+            color: #fff;
+            padding-left: 1.5rem;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .footer {
+            padding: 32px 0;
+            border-top: 1px solid var(--line);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .footer-link {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .footer-link:hover {
+            color: var(--ink);
+        }
+
+        .copyright {
+            color: var(--muted);
+            font-size: 14px;
+        }
+    
+        .hidden {
+            display: none;
+        }
+        .nav-link.active {
+            background: var(--ink);
+            color: white;
+            }
+
+        @media (max-width: 768px) {
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .lessons-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-wrap {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-wrap container">
+            <a class="logo" href="#">คณิตศาสตร์</a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">หน้าแรก</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#features">
+                        เนื้อหาเรียน
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown">
+                        <a href="m4.html" class="dropdown-item">มัธยมศึกษาปีที่ 4</a>
+                        <a href="m5.html" class="dropdown-item">มัธยมศึกษาปีที่ 5</a>
+                        <a href="m6.html" class="dropdown-item">มัธยมศึกษาปีที่ 6</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#exercises">แบบฝึกหัด</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">เกี่ยวกับเรา</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <a href="index.html" class="back-home">
+                <i class="fas fa-arrow-left"></i>
+                กลับหน้าหลัก
+            </a>
+            <div class="hero-content">
+                <h1 class="hero-title">คณิตศาสตร์ ม.6</h1>
+                <p class="hero-subtitle">เนื้อหาคณิตศาสตร์ชั้นมัธยมศึกษาปีที่ 6 ครบถ้วน ทั้งลำดับและอนุกรม แคลคูลัส และสถิติศาสตร์ เตรียมความพร้อมสู่มหาวิทยาลัย</p>
+            </div>
+        </div>
+    </section>
+    <section class="search-section">
+        <div class="container">
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="ค้นหาบทเรียน เช่น เซต, ฟังก์ชัน, ตรรกศาสตร์..." id="searchInput">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+        </div>
+    </section>
+
+    <section class="lessons-section container">
+        <h2 class="section-title">บทเรียนทั้งหมด</h2>
+        
+        <div class="lessons-grid" id="lessonsGrid">
+            <a href="m6/sequences.html" class="lesson-card" data-keywords="ลำดับ อนุกรม sequence series">
+                <span class="lesson-icon">📈</span>
+                <h3 class="lesson-title">ลำดับและอนุกรม</h3>
+                <p class="lesson-description">ศึกษาเกี่ยวกับลำดับเลขคณิต ลำดับเรขาคณิต อนุกรม ลิมิตของลำดับ และการประยุกต์ในการคำนวณดอกเบี้ยและมูลค่าของเงิน</p>
+                <div class="lesson-topics">
+                    <span class="topic-tag">ลำดับเลขคณิต</span>
+                    <span class="topic-tag">ลำดับเรขาคณิต</span>
+                    <span class="topic-tag">อนุกรมจำกัด</span>
+                    <span class="topic-tag">ลิมิตของลำดับ</span>
+                </div>
+                <span class="lesson-arrow">เข้าสู่บทเรียน →</span>
+            </a>
+
+            <a href="m6/calculus.html" class="lesson-card" data-keywords="แคลคูลัส calculus ลิมิต อนุพันธ์ ปริพันธ์ derivative integral">
+                <span class="lesson-icon">∫</span>
+                <h3 class="lesson-title">แคลคูลัสเบื้องต้น</h3>
+                <p class="lesson-description">ลิมิตของฟังก์ชัน ความต่อเนื่อง อนุพันธ์และการประยุกต์ ปฏิยานุพันธ์ และการหาพื้นที่ปิดล้อมด้วยเส้นโค้ง</p>
+                <div class="lesson-topics">
+                    <span class="topic-tag">ลิมิตของฟังก์ชัน</span>
+                    <span class="topic-tag">อนุพันธ์</span>
+                    <span class="topic-tag">ปริพันธ์</span>
+                    <span class="topic-tag">พื้นที่ใต้เส้นโค้ง</span>
+                </div>
+                <span class="lesson-arrow">เข้าสู่บทเรียน →</span>
+            </a>
+
+            <a href="m6/statistics.html" class="lesson-card" data-keywords="สถิติ statistics ข้อมูล data">
+                <span class="lesson-icon">📊</span>
+                <h3 class="lesson-title">สถิติศาสตร์และข้อมูล</h3>
+                <p class="lesson-description">ทำความเข้าใจพื้นฐานสถิติศาสตร์ ประเภทของข้อมูล สถิติเชิงพรรณนาและเชิงอนุมาน</p>
+                <div class="lesson-topics">
+                    <span class="topic-tag">ประชากรและตัวอย่าง</span>
+                    <span class="topic-tag">ข้อมูลปฐมภูมิ/ทุติยภูมิ</span>
+                    <span class="topic-tag">สถิติเชิงพรรณนา</span>
+                </div>
+                <span class="lesson-arrow">เข้าสู่บทเรียน →</span>
+            </a>
+
+            <a href="m6/data-analysis.html" class="lesson-card" data-keywords="คุณภาพ qualitative ปริมาณ quantitative ตารางความถี่ แผนภูมิ">
+                <span class="lesson-icon">🔬</span>
+                <h3 class="lesson-title">การวิเคราะห์ข้อมูล</h3>
+                <p class="lesson-description">การนำเสนอข้อมูลเชิงคุณภาพและปริมาณด้วยตาราง, แผนภูมิ, ค่ากลาง, และค่าวัดการกระจาย</p>
+                <div class="lesson-topics">
+                    <span class="topic-tag">ตารางความถี่</span>
+                    <span class="topic-tag">แผนภูมิ</span>
+                    <span class="topic-tag">ค่าเฉลี่ย/มัธยฐาน</span>
+                    <span class="topic-tag">ส่วนเบี่ยงเบน</span>
+                </div>
+                <span class="lesson-arrow">เข้าสู่บทเรียน →</span>
+            </a>
+
+            <a href="m6/probability-distribution.html" class="lesson-card" data-keywords="ตัวแปรสุ่ม random variable ความน่าจะเป็น probability การแจกแจง distribution">
+                <span class="lesson-icon">🎲</span>
+                <h3 class="lesson-title">ตัวแปรสุ่มและการแจกแจง</h3>
+                <p class="lesson-description">ตัวแปรสุ่มไม่ต่อเนื่องและต่อเนื่อง การแจกแจงทวินาม การแจกแจงปกติ และค่าคาดหมาย</p>
+                <div class="lesson-topics">
+                    <span class="topic-tag">ตัวแปรสุ่ม</span>
+                    <span class="topic-tag">การแจกแจงทวินาม</span>
+                    <span class="topic-tag">การแจกแจงปกติ</span>
+                    <span class="topic-tag">ค่าคาดหมาย</span>
+                </div>
+                <span class="lesson-arrow">เข้าสู่บทเรียน →</span>
+            </a>
+
+            <a href="m6/a-level-prep.html" class="lesson-card" data-keywords="เตรียมสอบ a-level tgat tpat ข้อสอบเก่า">
+                <span class="lesson-icon">🎯</span>
+                <h3 class="lesson-title">เตรียมสอบ A-Level</h3>
+                <p class="lesson-description">ทบทวนเนื้อหาสำคัญและฝึกทำโจทย์จากข้อสอบเก่าเพื่อเตรียมความพร้อมสู่สนามสอบมหาวิทยาลัย</p>
+                <div class="lesson-topics">
+                    <span class="topic-tag">สรุปเนื้อหา</span>
+                    <span class="topic-tag">ตะลุยโจทย์</span>
+                    <span class="topic-tag">ข้อสอบเก่า</span>
+                    <span class="topic-tag">เทคนิคทำข้อสอบ</span>
+                </div>
+                <span class="lesson-arrow">เข้าสู่บทเรียน →</span>
+            </a>
+        </div>
+    </section>
+
+    <section class="videos-section">
+        <div class="container">
+            <h2 class="section-title">คลิปแนะนำ</h2>
+            
+            <div class="videos-grid">
+                <div class="video-card">
+                    <img src="https://i.ytimg.com/vi/GRiolpOKyxk/hq720.jpg" alt="แคลคูลัส ม.6" class="video-thumbnail">
+                    <div class="video-content">
+                        <h3 class="video-title">แคลคูลัส ม.6 - ปูพื้นฐาน [Part 1/3]</h3>
+                        <p class="video-meta">พี่ปั้น SmartMathPro • 1.3M ครั้ง</p>
+                        <a href="https://www.youtube.com/watch?v=GRiolpOKyxk" target="_blank" class="watch-btn">ดูคลิป</a>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <img src="https://i.ytimg.com/vi/Pi74VX1P1lA/hq720.jpg" alt="ติวฟรี สรุปคณิต ม.ปลาย" class="video-thumbnail">
+                    <div class="video-content">
+                        <h3 class="video-title">ติวฟรี สรุปคณิต ม.ปลาย ทุกบท</h3>
+                        <p class="video-meta">chokchai tutor • 85K ครั้ง</p>
+                        <a href="https://www.youtube.com/watch?v=Pi74VX1P1lA" target="_blank" class="watch-btn">ดูคลิป</a>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <img src="https://web.athometh.com/wp-content/uploads/2022/09/image-1-calculus.jpg" alt="สูตรแคลคูลัส" class="video-thumbnail">
+                    <div class="video-content">
+                        <h3 class="video-title">สรุปสูตรแคลคูลัส ม.ปลาย</h3>
+                        <p class="video-meta">เตรียมฟิตพิชิตข้อสอบ</p>
+                        <a href="https://www.athometh.com/math/calculus/" target="_blank" class="watch-btn">ดูคลิป</a>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <img src="https://tuemaster.com/wp-content/uploads/2022/04/%E0%B9%81%E0%B8%84%E0%B8%A5%E0%B8%84%E0%B8%B9%E0%B8%A5%E0%B8%B1%E0%B8%AA-%E0%B8%AA%E0%B8%B9%E0%B8%95%E0%B8%A3-%E0%B8%AD%E0%B8%99%E0%B8%B8%E0%B8%9E%E0%B8%B1%E0%B8%99%E0%B8%98-diff-%E0%B8%94%E0%B8%B4%E0%B8%9F.jpg" alt="สูตรอนุพันธ์" class="video-thumbnail">
+                    <div class="video-content">
+                        <h3 class="video-title">สูตรการหาอนุพันธ์</h3>
+                        <p class="video-meta">คณิตศาสตร์ออนไลน์ Tuemaster</p>
+                        <a href="https://tuemaster.com/blog/%E0%B8%AA%E0%B8%B9%E0%B8%95%E0%B8%A3%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%AB%E0%B8%B2%E0%B8%AD%E0%B8%99%E0%B8%B8%E0%B8%9E%E0%B8%B1%E0%B8%99%E0%B8%98-%E0%B8%84%E0%B8%93%E0%B8%B4%E0%B8%95%E0%B8%A8/" target="_blank" class="watch-btn">ดูคลิป</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer container">
+        <div class="footer-links">
+            <a href="#" class="footer-link">นโยบายความเป็นส่วนตัว</a>
+            <a href="#" class="footer-link">เงื่อนไขการใช้งาน</a>
+            <a href="#" class="footer-link">ติดต่อเรา</a>
+        </div>
+        <p class="copyright">© 2025 เว็บไซต์คณิตศาสตร์มัธยมปลาย</p>
+    </footer>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const lessonsGrid = document.getElementById('lessonsGrid');
+        const lessonCards = lessonsGrid.querySelectorAll('.lesson-card');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            
+            lessonCards.forEach(card => {
+                const keywords = card.getAttribute('data-keywords').toLowerCase();
+                const title = card.querySelector('.lesson-title').textContent.toLowerCase();
+                const description = card.querySelector('.lesson-description').textContent.toLowerCase();
+                
+                if (keywords.includes(searchTerm) || title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คณิตศาสตร์ ม.4 - เนื้อหาและบทเรียน</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #111827;
+            --muted: #6b7280;
+            --line: #e5e7eb;
+            --brand: #0f172a;
+            --radius: 14px;
+            --space: clamp(16px, 2vw, 24px);
+            --container: 1100px;
+        }
+
+        * {
+            font-family: 'Kanit', sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            font-family: 'Kanit', sans-serif;
+            height: 100%;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+            cursor: context-menu;
+            color: var(--ink);
+            background: var(--bg);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        .container {
+            max-width: var(--container);
+            margin-inline: auto;
+            padding-inline: var(--space);
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: #fff;
+            border-bottom: 1px solid var(--line);
+            z-index: 1000;
+        }
+
+        .nav-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px var(--space);
+        }
+
+        .logo {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .logo::before {
+            content: "∑";
+            margin-right: 0.5rem;
+            color: var(--ink);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 18px;
+            list-style: none;
+        }
+
+        .nav-link {
+            display: inline-block;
+            padding: 8px 10px;
+            border-radius: 10px;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .nav-link:hover {
+            background: #f8fafc;
+        }
+
+        .nav-link.active {
+            background: var(--ink);
+            color: white;
+        }
+
+        .hero {
+            padding: clamp(40px, 6vw, 80px) 0 clamp(32px, 4vw, 48px) 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+        }
+
+        .hero-content {
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--ink), #374151);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            color: var(--muted);
+            font-size: clamp(16px, 1.8vw, 20px);
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-section {
+            padding: clamp(32px, 4vw, 48px) 0;
+            background: #fafafa;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 16px 50px 16px 20px;
+            border: 2px solid var(--line);
+            border-radius: var(--radius);
+            font-size: 16px;
+            font-family: 'Kanit', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--ink);
+            box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            font-size: 18px;
+        }
+
+        .lessons-section {
+            padding: clamp(32px, 4vw, 64px) 0;
+        }
+
+        .section-title {
+            font-size: clamp(24px, 3.6vw, 36px);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-align: center;
+            margin-bottom: clamp(24px, 3vw, 48px);
+        }
+
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: clamp(16px, 2vw, 24px);
+            margin-bottom: clamp(48px, 6vw, 80px);
+        }
+
+        .lesson-card {
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: clamp(20px, 2.5vw, 28px);
+            background: #fff;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            border-color: var(--ink);
+        }
+
+        .lesson-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .lesson-title {
+            font-weight: 600;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .lesson-description {
+            color: var(--muted);
+            font-size: 15px;
+            margin-bottom: 16px;
+        }
+
+        .lesson-topics {
+            margin-bottom: 16px;
+        }
+
+        .topic-tag {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin: 2px 4px 2px 0;
+        }
+
+        .lesson-arrow {
+            color: var(--muted);
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .lesson-card:hover .lesson-arrow {
+            color: var(--ink);
+        }
+
+        .videos-section {
+            padding: clamp(32px, 4vw, 64px) 0;
+            background: #f8fafc;
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: clamp(16px, 2vw, 24px);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .video-card {
+            background: #fff;
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid var(--line);
+        }
+
+        .video-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-thumbnail {
+            position: relative;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover .play-button {
+            background: var(--ink);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-content {
+            padding: 16px;
+        }
+
+        .video-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .video-channel {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .watch-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid var(--ink);
+            border-radius: 8px;
+            color: var(--ink);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .watch-button:hover {
+            background: var(--ink);
+            color: white;
+        }
+
+        footer {
+            padding: 32px 0;
+            border-top: 1px solid var(--line);
+            background: #fafafa;
+        }
+
+        .foot {
+            display: flex;
+            gap: 18px;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .foot a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .foot a:hover {
+            color: var(--ink);
+        }
+
+        .copy {
+            color: var(--muted);
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--ink);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        .back-home:hover {
+            opacity: 0.7;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: #fff;
+            border-bottom: 1px solid var(--line);
+            z-index: 1000;
+        }
+
+        .nav-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px var(--space);
+        }
+
+        .logo {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .logo::before {
+            content: "∑";
+            margin-right: 0.5rem;
+            color: var(--ink);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 18px;
+            list-style: none;
+        }
+
+        .nav-link {
+            display: inline-block;
+            padding: 8px 10px;
+            border-radius: 10px;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .nav-link:hover {
+            background: #f8fafc;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            min-width: 180px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.8rem 1.2rem;
+            color: #2c3e50;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .dropdown-item:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .dropdown-item:hover {
+            background-color: #3498db;
+            color: #fff;
+            padding-left: 1.5rem;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 768px) {
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-wrap {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                gap: 0;
+                width: 100%;
+            }
+
+            .nav-link {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .lessons-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-wrap container">
+            <a class="logo" href="#">คณิตศาสตร์</a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">หน้าแรก</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#features">
+                        เนื้อหาเรียน
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown">
+                        <a href="m4.html" class="dropdown-item">มัธยมศึกษาปีที่ 4</a>
+                        <a href="m5.html" class="dropdown-item">มัธยมศึกษาปีที่ 5</a>
+                        <a href="m6.html" class="dropdown-item">มัธยมศึกษาปีที่ 6</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#exercises">แบบฝึกหัด</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">เกี่ยวกับเรา</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <a href="index.html" class="back-home">
+                <i class="fas fa-arrow-left"></i>
+                กลับหน้าหลัก
+            </a>
+            <div class="hero-content">
+                <h1 class="hero-title">คณิตศาสตร์ ม.4</h1>
+                <p class="hero-subtitle">เรียนรู้พื้นฐานคณิตศาสตร์มัธยมปลาย ตั้งแต่เซต ตรรกศาสตร์ ไปจนถึงฟังก์ชันและเรขาคณิตวิเคราะห์</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="search-section">
+        <div class="container">
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="ค้นหาบทเรียน เช่น เซต, ฟังก์ชัน, ตรรกศาสตร์..." id="searchInput">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+        </div>
+    </section>
+
+    <section class="lessons-section">
+        <div class="container">
+            <h2 class="section-title">บทเรียนทั้งหมด</h2>
+            <div class="lessons-grid" id="lessonsGrid">
+                <a href="m4/set.html" class="lesson-card" data-keywords="เซต set การดำเนินการ ยูเนียน อินเตอร์เซกชัน">
+                    <span class="lesson-icon">🔢</span>
+                    <h3 class="lesson-title">เซต (Set)</h3>
+                    <p class="lesson-description">เรียนรู้แนวคิดพื้นฐานของเซต การดำเนินการระหว่างเซต และการประยุกต์ใช้</p>
+                    <div class="lesson-topics">
+                        <span class="topic-tag">การเขียนเซต</span>
+                        <span class="topic-tag">แผนภาพเวนน์</span>
+                        <span class="topic-tag">การดำเนินการ</span>
+                        <span class="topic-tag">การแก้ปัญหา</span>
+                    </div>
+                    <span class="lesson-arrow">เข้าสู่บทเรียน →</span>
+                </a>
+
+                <a href="m4/logic.html" class="lesson-card" data-keywords="ตรรกศาสตร์ logic ประพจน์ สัจนิรันดร์">
+                    <span class="lesson-icon">💭</span>
+                    <h3 class="lesson-title">ตรรกศาสตร์เบื้องต้น</h3>
+                    <p class="lesson-description">ศึกษาการใช้เหตุผลเชิงตรรกะ ประพจน์ และการอ้างเหตุผลอย่างมีระบบ</p>
+                    <div class="lesson-topics">
+                        <span class="topic-tag">ประพจน์</span>
+                        <span class="topic-tag">การเชื่อมประพจน์</span>
+                        <span class="topic-tag">สัจนิรันดร์</span>
+                        <span class="topic-tag">ตัวบ่งปริมาณ</span>
+                    </div>
+                    <span class="lesson-arrow">เข้าสู่บทเรียน →</span>
+                </a>
+
+                <a href="m4/real-numbers.html" class="lesson-card" data-keywords="จำนวนจริง พหุนาม สมการ อสมการ ค่าสัมบูรณ์">
+                    <span class="lesson-icon">🔣</span>
+                    <h3 class="lesson-title">จำนวนจริง</h3>
+                    <p class="lesson-description">ทำความเข้าใจระบบจำนวนจริง พหุนาม สมการและอสมการขั้นสูง</p>
+                    <div class="lesson-topics">
+                        <span class="topic-tag">ระบบจำนวนจริง</span>
+                        <span class="topic-tag">พหุนาม</span>
+                        <span class="topic-tag">สมการ/อสมการ</span>
+                        <span class="topic-tag">ค่าสัมบูรณ์</span>
+                    </div>
+                    <span class="lesson-arrow">เข้าสู่บทเรียน →</span>
+                </a>
+
+                <a href="m4/relations-functions.html" class="lesson-card" data-keywords="ความสัมพันธ์ ฟังก์ชัน โดเมน เรนจ์ กราฟ">
+                    <span class="lesson-icon">📈</span>
+                    <h3 class="lesson-title">ความสัมพันธ์และฟังก์ชัน</h3>
+                    <p class="lesson-description">เข้าใจแนวคิดของฟังก์ชัน การหาโดเมนและเรนจ์ และการวาดกราฟ</p>
+                    <div class="lesson-topics">
+                        <span class="topic-tag">ความสัมพันธ์</span>
+                        <span class="topic-tag">ฟังก์ชัน</span>
+                        <span class="topic-tag">กราฟฟังก์ชัน</span>
+                        <span class="topic-tag">ฟังก์ชันผกผัน</span>
+                    </div>
+                    <span class="lesson-arrow">เข้าสู่บทเรียน →</span>
+                </a>
+
+                <a href="m4/exponential-log.html" class="lesson-card" data-keywords="เลขยกกำลัง ลอการิทึม เอกซ์โพเนนเชียล สมการ">
+                    <span class="lesson-icon">📊</span>
+                    <h3 class="lesson-title">ฟังก์ชันเอกซ์โพเนนเชียลและลอการิทึม</h3>
+                    <p class="lesson-description">ศึกษาเลขยกกำลัง ลอการิทึม และการประยุกต์ในชีวิตจริง</p>
+                    <div class="lesson-topics">
+                        <span class="topic-tag">เลขยกกำลัง</span>
+                        <span class="topic-tag">ลอการิทึม</span>
+                        <span class="topic-tag">สมการ Exp/Log</span>
+                        <span class="topic-tag">การประยุกต์</span>
+                    </div>
+                    <span class="lesson-arrow">เข้าสู่บทเรียน →</span>
+                </a>
+
+                <a href="m4/analytic-geometry.html" class="lesson-card" data-keywords="เรขาคณิตวิเคราะห์ ภาคตัดกรวย วงกลม วงรี พาราโบลา">
+                    <span class="lesson-icon">📐</span>
+                    <h3 class="lesson-title">เรขาคณิตวิเคราะห์และภาคตัดกรวย</h3>
+                    <p class="lesson-description">เชื่อมโยงพิกัดกับเรขาคณิต ศึกษาภาคตัดกรวยและสมการต่างๆ</p>
+                    <div class="lesson-topics">
+                        <span class="topic-tag">เส้นตรง</span>
+                        <span class="topic-tag">วงกลม</span>
+                        <span class="topic-tag">วงรี/พาราโบลา</span>
+                        <span class="topic-tag">ไฮเพอร์โบลา</span>
+                    </div>
+                    <span class="lesson-arrow">เข้าสู่บทเรียน →</span>
+                </a>
+            </div>
+
+            <h2 class="section-title">คลิปแนะนำ</h2>
+            <div class="videos-grid">
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://i.ytimg.com/vi/yamUTkGFN8c/hq720.jpg" alt="เซต ม.4 ปูพื้นฐาน">
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-content">
+                        <h4 class="video-title">เซต ม.4 - ปูพื้นฐาน</h4>
+                        <p class="video-channel">SmartMathPro</p>
+                        <a href="https://www.youtube.com/watch?v=yamUTkGFN8c" target="_blank" class="watch-button">
+                            <i class="fas fa-play"></i>
+                            ดูคลิป
+                        </a>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://i.ytimg.com/vi/gpdoXG8-X3w/hq720.jpg" alt="จำนวนจริง ม.4">
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-content">
+                        <h4 class="video-title">จำนวนจริง ม.4 - สรุปทุกสิ่งที่ต้องรู้</h4>
+                        <p class="video-channel">SmartMathPro</p>
+                        <a href="https://www.youtube.com/watch?v=gpdoXG8-X3w" target="_blank" class="watch-button">
+                            <i class="fas fa-play"></i>
+                            ดูคลิป
+                        </a>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://i.ytimg.com/vi/-jsnbRgX7tY/hq720.jpg" alt="ความสัมพันธ์และฟังก์ชัน ม.4">
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-content">
+                        <h4 class="video-title">ความสัมพันธ์และฟังก์ชัน ม.4 - ปูพื้นฐาน</h4>
+                        <p class="video-channel">SmartMathPro</p>
+                        <a href="https://www.youtube.com/watch?v=-jsnbRgX7tY" target="_blank" class="watch-button">
+                            <i class="fas fa-play"></i>
+                            ดูคลิป
+                        </a>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://i.ytimg.com/vi/FVVxsFm_hwM/hq720.jpg" alt="ลอการิทึม - สรุปสูตร">
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-content">
+                        <h4 class="video-title">ลอการิทึม - สรุปสูตร (Log)</h4>
+                        <p class="video-channel">SmartMathPro</p>
+                        <a href="https://www.youtube.com/watch?v=FVVxsFm_hwM" target="_blank" class="watch-button">
+                            <i class="fas fa-play"></i>
+                            ดูคลิป
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="foot">
+                <a href="#">นโยบายความเป็นส่วนตัว</a>
+                <a href="#">เงื่อนไขการใช้งาน</a>
+                <a href="#">ติดต่อเรา</a>
+            </div>
+            <p class="copy">© 2025 เว็บไซต์คณิตศาสตร์มัธยมปลาย</p>
+        </div>
+    </footer>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const lessonsGrid = document.getElementById('lessonsGrid');
+        const lessonCards = lessonsGrid.querySelectorAll('.lesson-card');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            
+            lessonCards.forEach(card => {
+                const keywords = card.getAttribute('data-keywords').toLowerCase();
+                const title = card.querySelector('.lesson-title').textContent.toLowerCase();
+                const description = card.querySelector('.lesson-description').textContent.toLowerCase();
+                
+                const isMatch = keywords.includes(searchTerm) || 
+                               title.includes(searchTerm) || 
+                               description.includes(searchTerm);
+                
+                if (searchTerm === '' || isMatch) {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeIn 0.3s ease';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

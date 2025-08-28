@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แคลคูลัสเบื้องต้น - คณิตศาสตร์ ม.6</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #111827;
+            --muted: #6b7280;
+            --line: #e5e7eb;
+            --brand: #0f172a;
+            --radius: 14px;
+            --space: clamp(16px, 2vw, 24px);
+            --container: 1100px;
+        }
+
+        * {
+            font-family: 'Kanit', sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            font-family: 'Kanit', sans-serif;
+            height: 100%;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+            cursor: context-menu;
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            color: var(--ink);
+            background: var(--bg);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        .container {
+            max-width: var(--container);
+            margin-inline: auto;
+            padding-inline: var(--space);
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: #fff;
+            border-bottom: 1px solid var(--line);
+            z-index: 1000;
+        }
+
+        .nav-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px var(--space);
+        }
+
+        .logo {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .logo::before {
+            content: "∑";
+            margin-right: 0.5rem;
+            color: var(--ink);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 18px;
+            list-style: none;
+        }
+
+        .nav-link {
+            display: inline-block;
+            padding: 8px 10px;
+            border-radius: 10px;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .nav-link:hover {
+            background: #f8fafc;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            min-width: 180px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.8rem 1.2rem;
+            color: #2c3e50;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .dropdown-item:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .dropdown-item:hover {
+            background-color: #3498db;
+            color: #fff;
+            padding-left: 1.5rem;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .hero {
+            padding: clamp(40px, 6vw, 96px) 0 clamp(32px, 4vw, 64px) 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .hero-content {
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: clamp(28px, 5vw, 46px);
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            margin-bottom: 10px;
+            color: var(--brand);
+        }
+
+        .hero-sub {
+            color: var(--muted);
+            font-size: clamp(14px, 1.6vw, 17px);
+            margin-bottom: 22px;
+        }
+
+        .breadcrumb {
+            background: #f8fafc;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .breadcrumb-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .breadcrumb-nav a {
+            color: var(--brand);
+            text-decoration: none;
+        }
+
+        .breadcrumb-nav a:hover {
+            text-decoration: underline;
+        }
+
+        .content-section {
+            padding: clamp(32px, 4vw, 64px) 0;
+        }
+
+        .section-title {
+            font-size: clamp(22px, 3.6vw, 34px);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: clamp(18px, 2vw, 24px);
+            color: var(--brand);
+        }
+
+        .subsection {
+            margin-bottom: clamp(32px, 4vw, 48px);
+        }
+
+        .subsection-title {
+            font-size: clamp(18px, 2.8vw, 28px);
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--ink);
+            border-left: 4px solid var(--brand);
+            padding-left: 16px;
+        }
+
+        .text-content {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 16px;
+            color: var(--ink);
+        }
+
+        .formula-box {
+            background: #f8fafc;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin: 24px 0;
+            text-align: center;
+        }
+
+        .formula-title {
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--brand);
+        }
+
+        .example-box {
+            background: #fefce8;
+            border: 1px solid #facc15;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .example-title {
+            font-weight: 600;
+            color: #a16207;
+            margin-bottom: 12px;
+        }
+
+        .image-container {
+            text-align: center;
+            margin: 24px 0;
+        }
+
+        .content-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-container {
+            margin: 24px 0;
+            height: 400px;
+        }
+
+        .grid-2x2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 32px 0;
+        }
+
+        .note-box {
+            background: #eff6ff;
+            border: 1px solid #3b82f6;
+            border-radius: var(--radius);
+            padding: 16px;
+            margin: 16px 0;
+        }
+
+        .note-title {
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 8px;
+        }
+        footer {
+            border-top: 1px solid var(--line);
+            padding: 32px 0;
+            margin-top: 48px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .footer-links a:hover {
+            color: var(--ink);
+        }
+        li {
+            list-style-type: none;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2x2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .breadcrumb-nav {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-wrap container">
+            <a class="logo" href="#">คณิตศาสตร์</a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">หน้าแรก</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#features">
+                        เนื้อหาเรียน
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown">
+                        <a href="../m4.html" class="dropdown-item">มัธยมศึกษาปีที่ 4</a>
+                        <a href="../m5.html" class="dropdown-item">มัธยมศึกษาปีที่ 5</a>
+                        <a href="../m6.html" class="dropdown-item">มัธยมศึกษาปีที่ 6</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#exercises">แบบฝึกหัด</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">เกี่ยวกับเรา</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="breadcrumb">
+        <div class="container">
+            <nav class="breadcrumb-nav">
+                <a href="../index.html">หน้าแรก</a> › 
+                <a href="../m6.html">ม.6</a> › 
+                <span>แคลคูลัสเบื้องต้น</span>
+            </nav>
+        </div>
+    </div>
+
+    <header class="hero">
+        <div class="container hero-content">
+            <h1 class="hero-title">แคลคูลัสเบื้องต้น</h1>
+            <p class="hero-sub">บทเรียนพื้นฐานที่สำคัญสำหรับคณิตศาสตร์ ม.6 และการเรียนต่อในระดับมหาวิทยาลัย</p>
+        </div>
+    </header>
+
+    <main class="content-section">
+        <div class="container">
+            
+            <!-- บทนำ -->
+            <section class="subsection">
+                <h2 class="subsection-title">🎯 บทนำ</h2>
+                <p class="text-content">
+                    แคลคูลัสเป็นสาขาหนึ่งของคณิตศาสตร์ที่ศึกษาเกี่ยวกับการเปลี่ยนแปลงและการสะสม ในบทนี้เราจะเรียนรู้เกี่ยวกับ
+                    ลิมิต อนุพันธ์ และปริพันธ์ ซึ่งเป็นพื้นฐานสำคัญสำหรับการศึกษาในระดับมหาวิทยาลัย โดยเฉพาะในสาขาวิทยาศาสตร์ 
+                    วิศวกรรมศาสตร์ เศรษฐศาสตร์ และการแพทย์
+                </p>
+                
+                <div class="image-container">
+                    <img src="https://web.athometh.com/wp-content/uploads/2022/09/image-1-calculus.jpg" alt="สรุปสูตรแคลคูลัส" class="content-image">
+                </div>
+            </section>
+
+            <!-- ลิมิตของฟังก์ชัน -->
+            <section class="subsection">
+                <h2 class="subsection-title">📊 ลิมิตของฟังก์ชัน (Limits)</h2>
+                <p class="text-content">
+                    ลิมิตคือค่าที่ฟังก์ชัน f(x) เข้าใกล้เมื่อ x เข้าใกล้ค่าใดค่าหนึ่ง ลิมิตเป็นแนวคิดพื้นฐานที่สำคัญในการทำความเข้าใจอนุพันธ์และปริพันธ์
+                </p>
+                
+                <div class="formula-box">
+                    <div class="formula-title">สัญลักษณ์ลิมิต</div>
+                    <p>$$\lim_{x \to a} f(x) = L$$</p>
+                    <p>หมายความว่า เมื่อ x เข้าใกล้ a แล้ว f(x) จะเข้าใกล้ L</p>
+                </div>
+
+                <div class="grid-2x2">
+                    <div>
+                        <h4>กฎสำคัญของลิมิต:</h4>
+                        <ul style="padding-left: 20px; line-height: 1.8;">
+                            <li>$\lim_{x \to a} [f(x) + g(x)] = \lim_{x \to a} f(x) + \lim_{x \to a} g(x)$</li>
+                            <li>$\lim_{x \to a} [f(x) \cdot g(x)] = \lim_{x \to a} f(x) \cdot \lim_{x \to a} g(x)$</li>
+                            <li>$\lim_{x \to a} \frac{f(x)}{g(x)} = \frac{\lim_{x \to a} f(x)}{\lim_{x \to a} g(x)}$ (เมื่อ $\lim_{x \to a} g(x) \neq 0$)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="image-container">
+                            <img src="https://www.chulatutor.com/blog/wp-content/uploads/2022/03/แคลคูลัส-ทฤษฎีบทเกี่ยวกับลิมิต-2.png" alt="ทฤษฎีบทลิมิต" class="content-image">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">ตัวอย่าง: การหาลิมิต</div>
+                    <p>หาค่า $\lim_{x \to 2} \frac{x^2 - 4}{x - 2}$</p>
+                    <p><strong>วิธีทำ:</strong> แยกตัวประกอบ $x^2 - 4 = (x-2)(x+2)$</p>
+                    <p>$\lim_{x \to 2} \frac{(x-2)(x+2)}{x-2} = \lim_{x \to 2} (x+2) = 4$</p>
+                </div>
+            </section>
+
+            <!-- ความต่อเนื่องของฟังก์ชัน -->
+            <section class="subsection">
+                <h2 class="subsection-title">🔗 ความต่อเนื่องของฟังก์ชัน (Continuity)</h2>
+                <p class="text-content">
+                    ฟังก์ชัน f(x) จะต่อเนื่องที่ x = a เมื่อเงื่อนไขสามข้อต่อไปนี้เป็นจริง
+                </p>
+                
+                <div class="formula-box">
+                    <div class="formula-title">เงื่อนไขความต่อเนื่อง</div>
+                    <p>1. f(a) มีค่าจำกัด (f(a) ถูกนิยาม)</p>
+                    <p>2. $\lim_{x \to a} f(x)$ มีค่าจำกัด</p>
+                    <p>3. $\lim_{x \to a} f(x) = f(a)$</p>
+                </div>
+
+                <div class="note-box">
+                    <div class="note-title">หมายเหตุ:</div>
+                    <p>ฟังก์ชันที่ต่อเนื่องจะมีกราฟที่เป็นเส้นเดียวกันโดยไม่มีการขาด หรือการกระโดด</p>
+                </div>
+            </section>
+
+            <!-- อนุพันธ์ของฟังก์ชัน -->
+            <section class="subsection">
+                <h2 class="subsection-title">📐 อนุพันธ์ของฟังก์ชัน (Derivatives)</h2>
+                <p class="text-content">
+                    อนุพันธ์แสดงถึงอัตราการเปลี่ยนแปลงของฟังก์ชัน ณ จุดใดจุดหนึ่ง และสามารถใช้หาความชันของเส้นสัมผัสได้
+                </p>
+                
+                <div class="formula-box">
+                    <div class="formula-title">นิยามอนุพันธ์</div>
+                    <p>$$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$$</p>
+                </div>
+
+                <div class="image-container">
+                    <img src="https://tuemaster.com/wp-content/uploads/2022/04/แคลคูลัส-สูตร-อนุพันธ-diff-ดิฟ.jpg" alt="สูตรอนุพันธ์" class="content-image">
+                </div>
+
+                <h3 style="font-weight: 600; margin: 24px 0 16px 0;">สูตรอนุพันธ์พื้นฐาน:</h3>
+                <div class="grid-2x2">
+                    <div class="formula-box">
+                        <p>$\frac{d}{dx}(c) = 0$</p>
+                        <p>$\frac{d}{dx}(x^n) = nx^{n-1}$</p>
+                    </div>
+                    <div class="formula-box">
+                        <p>$\frac{d}{dx}(e^x) = e^x$</p>
+                        <p>$\frac{d}{dx}(\ln x) = \frac{1}{x}$</p>
+                    </div>
+                    <div class="formula-box">
+                        <p>$\frac{d}{dx}(\sin x) = \cos x$</p>
+                        <p>$\frac{d}{dx}(\cos x) = -\sin x$</p>
+                    </div>
+                    <div class="formula-box">
+                        <p>$\frac{d}{dx}(\tan x) = \sec^2 x$</p>
+                        <p>$\frac{d}{dx}(a^x) = a^x \ln a$</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">ตัวอย่าง: การหาอนุพันธ์</div>
+                    <p>หาอนุพันธ์ของ $f(x) = 3x^4 - 2x^3 + 5x - 1$</p>
+                    <p><strong>คำตอบ:</strong> $f'(x) = 12x^3 - 6x^2 + 5$</p>
+                </div>
+            </section>
+
+            <!-- การประยุกต์ของอนุพันธ์ -->
+            <section class="subsection">
+                <h2 class="subsection-title">🎯 การประยุกต์ของอนุพันธ์</h2>
+                
+                <h3 style="font-weight: 600; margin: 24px 0 16px 0;">1. การหาค่าสูงสุดและต่ำสุด</h3>
+                <div class="text-content">
+                    ใช้หลักการที่ว่า ณ จุดสูงสุดหรือต่ำสุด อนุพันธ์จะมีค่าเท่ากับศูนย์
+                </div>
+                
+                <div class="formula-box">
+                    <div class="formula-title">ขั้นตอนการหาค่าสูงสุด-ต่ำสุด</div>
+                    <p>1. หา f'(x) = 0 เพื่อหาจุดวิกฤต</p>
+                    <p>2. ทดสอบด้วยอนุพันธ์อันดับสอง f''(x)</p>
+                    <p>• ถ้า f''(x) > 0 → ค่าต่ำสุด</p>
+                    <p>• ถ้า f''(x) < 0 → ค่าสูงสุด</p>
+                </div>
+
+                <h3 style="font-weight: 600; margin: 24px 0 16px 0;">2. ความชันของเส้นสัมผัส</h3>
+                <div class="text-content">
+                    ความชันของเส้นสัมผัสของกราฟ y = f(x) ณ จุด (a, f(a)) คือ f'(a)
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="derivativeChart"></canvas>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">ตัวอย่าง: การประยุกต์ใช้</div>
+                    <p>กล่องสี่เหลี่ยมผืนผ้าที่มีความยาวรอบรูป 20 เซนติเมตร จะมีพื้นที่สูงสุดเท่าใด?</p>
+                    <p><strong>วิธีทำ:</strong> ให้ x เป็นความกว้าง แล้วความยาว = 10-x</p>
+                    <p>พื้นที่ A = x(10-x) = 10x - x²</p>
+                    <p>A' = 10 - 2x = 0 → x = 5</p>
+                    <p>ดังนั้น พื้นที่สูงสุด = 5×5 = 25 ตารางเซนติเมตร</p>
+                </div>
+            </section>
+
+            <!-- ปฏิยานุพันธ์ -->
+            <section class="subsection">
+                <h2 class="subsection-title">∫ ปฏิยานุพันธ์ (Antiderivatives & Integration)</h2>
+                <p class="text-content">
+                    ปฏิยานุพันธ์เป็นกระบวนการตรงข้ามกับการหาอนุพันธ์ หาก F'(x) = f(x) แล้ว F(x) จะเป็นปฏิยานุพันธ์ของ f(x)
+                </p>
+                
+                <div class="formula-box">
+                    <div class="formula-title">สัญลักษณ์ปริพันธ์</div>
+                    <p>$$\int f(x) dx = F(x) + C$$</p>
+                    <p>โดย F'(x) = f(x) และ C คือค่าคงที่</p>
+                </div>
+
+                <div class="image-container">
+                    <img src="https://www.chulatutor.com/blog/wp-content/uploads/2022/03/แคลคูลัส-10.png" alt="สูตรปริพันธ์" class="content-image">
+                </div>
+
+                <h3 style="font-weight: 600; margin: 24px 0 16px 0;">สูตรปริพันธ์พื้นฐาน:</h3>
+                <div class="grid-2x2">
+                    <div class="formula-box">
+                        <p>$\int x^n dx = \frac{x^{n+1}}{n+1} + C$</p>
+                        <p>$\int e^x dx = e^x + C$</p>
+                    </div>
+                    <div class="formula-box">
+                        <p>$\int \frac{1}{x} dx = \ln|x| + C$</p>
+                        <p>$\int a^x dx = \frac{a^x}{\ln a} + C$</p>
+                    </div>
+                    <div class="formula-box">
+                        <p>$\int \sin x dx = -\cos x + C$</p>
+                        <p>$\int \cos x dx = \sin x + C$</p>
+                    </div>
+                    <div class="formula-box">
+                        <p>$\int \sec^2 x dx = \tan x + C$</p>
+                        <p>$\int \frac{1}{\sqrt{1-x^2}} dx = \arcsin x + C$</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <div class="formula-title">ปริพันธ์จำกัดเขต</div>
+                    <p>$$\int_a^b f(x) dx = F(b) - F(a)$$</p>
+                    <p>โดย F'(x) = f(x)</p>
+                </div>
+            </section>
+
+            <!-- พื้นที่ปิดล้อมด้วยเส้นโค้ง -->
+            <section class="subsection">
+                <h2 class="subsection-title">📏 พื้นที่ปิดล้อมด้วยเส้นโค้ง</h2>
+                <p class="text-content">
+                    ปริพันธ์จำกัดเขตสามารถใช้คำนวณพื้นที่ใต้เส้นโค้งได้ ซึ่งมีประโยชน์ในการแก้ปัญหาจริงมากมาย
+                </p>
+
+                <div class="image-container">
+                    <img src="https://i0.wp.com/www.webythebrain.com/wp-content/uploads/2024/04/Calculus-M6-20.jpg" alt="พื้นที่ใต้เส้นโค้ง" class="content-image">
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="areaChart"></canvas>
+                </div>
+
+                <h3 style="font-weight: 600; margin: 24px 0 16px 0;">การหาพื้นที่:</h3>
+                <div class="formula-box">
+                    <div class="formula-title">พื้นที่ระหว่างเส้นโค้งกับแกน x</div>
+                    <p>$$A = \int_a^b |f(x)| dx$$</p>
+                </div>
+
+                <div class="formula-box">
+                    <div class="formula-title">พื้นที่ระหว่างสองเส้นโค้ง</div>
+                    <p>$$A = \int_a^b |f(x) - g(x)| dx$$</p>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">ตัวอย่าง: การหาพื้นที่</div>
+                    <p>หาพื้นที่ใต้เส้นโค้ง y = x² ระหว่าง x = 0 ถึง x = 2</p>
+                    <p><strong>วิธีทำ:</strong></p>
+                    <p>$A = \int_0^2 x^2 dx = \left[\frac{x^3}{3}\right]_0^2 = \frac{8}{3} - 0 = \frac{8}{3}$ ตารางหน่วย</p>
+                </div>
+            </section>
+
+            <!-- สรุปสำคัญ -->
+            <section class="subsection">
+                <h2 class="subsection-title">📝 สรุปสำคัญ</h2>
+                <div class="note-box">
+                    <div class="note-title">จุดสำคัญที่ต้องจำ:</div>
+                    <ul style="padding-left: 20px; line-height: 1.8;">
+                        <li><strong>ลิมิต:</strong> พื้นฐานของแคลคูลัส ใช้หาความต่อเนื่องและอนุพันธ์</li>
+                        <li><strong>อนุพันธ์:</strong> แสดงอัตราการเปลี่ยนแปลง ใช้หาค่าสูงสุด-ต่ำสุด</li>
+                        <li><strong>ปริพันธ์:</strong> กระบวนการตรงข้ามอนุพันธ์ ใช้หาพื้นที่และปริมาตร</li>
+                        <li><strong>การประยุกต์:</strong> สามารถนำไปใช้ในฟิสิกส์ เศรษฐศาสตร์ และวิศวกรรม</li>
+                    </ul>
+                </div>
+
+                <div class="image-container">
+                    <img src="https://web.athometh.com/wp-content/uploads/2022/09/image-12-calculus.jpg" alt="สรุปแคลคูลัส" class="content-image">
+                </div>
+            </section>
+
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#">นโยบายความเป็นส่วนตัว</a>
+                    <a href="#">เงื่อนไขการใช้งาน</a>
+                    <a href="#">ติดต่อเรา</a>
+                </div>
+                <p style="color: var(--muted); font-size: 14px;">© 2025 เว็บไซต์คณิตศาสตร์มัธยมปลาย</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // กราฟแสดงอนุพันธ์
+        const ctx1 = document.getElementById('derivativeChart').getContext('2d');
+        const derivativeChart = new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: [-3, -2, -1, 0, 1, 2, 3],
+                datasets: [{
+                    label: 'f(x) = x²',
+                    data: [9, 4, 1, 0, 1, 4, 9],
+                    borderColor: 'rgb(59, 130, 246)',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    tension: 0.4
+                }, {
+                    label: "f'(x) = 2x",
+                    data: [-6, -4, -2, 0, 2, 4, 6],
+                    borderColor: 'rgb(239, 68, 68)',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'เปรียบเทียบ f(x) และ f\'(x)'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // กราฟแสดงพื้นที่ใต้เส้นโค้ง
+        const ctx2 = document.getElementById('areaChart').getContext('2d');
+        const areaChart = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: [0, 0.5, 1, 1.5, 2],
+                datasets: [{
+                    label: 'y = x²',
+                    data: [0, 0.25, 1, 2.25, 4],
+                    borderColor: 'rgb(34, 197, 94)',
+                    backgroundColor: 'rgba(34, 197, 94, 0.3)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'พื้นที่ใต้เส้นโค้ง y = x² จาก 0 ถึง 2'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

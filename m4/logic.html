@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ตรรกศาสตร์ - คณิตศาสตร์ ม.4</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #111827;
+            --muted: #6b7280;
+            --line: #e5e7eb;
+            --brand: #0f172a;
+            --radius: 14px;
+            --space: clamp(16px, 2vw, 24px);
+            --container: 1100px;
+        }
+
+        * {
+            font-family: 'Kanit', sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            font-family: 'Kanit', sans-serif;
+            height: 100%;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+            cursor: context-menu;
+            color: var(--ink);
+            background: var(--bg);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        .container {
+            max-width: var(--container);
+            margin-inline: auto;
+            padding-inline: var(--space);
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: #fff;
+            border-bottom: 1px solid var(--line);
+            z-index: 1000;
+        }
+
+        .nav-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px var(--space);
+        }
+
+        .logo {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .logo::before {
+            content: "∧∨";
+            margin-right: 0.5rem;
+            color: var(--ink);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 18px;
+            list-style: none;
+        }
+
+        .nav-link {
+            display: inline-block;
+            padding: 8px 10px;
+            border-radius: 10px;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .nav-link:hover {
+            background: #f8fafc;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            min-width: 180px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.8rem 1.2rem;
+            color: #2c3e50;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .dropdown-item:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .dropdown-item:hover {
+            background-color: #3498db;
+            color: #fff;
+            padding-left: 1.5rem;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .hero {
+            padding: clamp(32px, 4vw, 48px) 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+        }
+
+        .hero-content h1 {
+            font-size: clamp(28px, 5vw, 42px);
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            margin-bottom: 12px;
+            color: var(--ink);
+        }
+
+        .hero-content p {
+            color: var(--muted);
+            font-size: clamp(16px, 1.6vw, 18px);
+            margin-bottom: 24px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .breadcrumb a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--ink);
+        }
+
+        .main-content {
+            padding: clamp(24px, 4vw, 48px) 0;
+        }
+
+        .content-section {
+            margin-bottom: clamp(32px, 4vw, 48px);
+        }
+
+        .section-title {
+            font-size: clamp(22px, 3vw, 28px);
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--ink);
+        }
+
+        .subsection-title {
+            font-size: clamp(18px, 2.5vw, 22px);
+            font-weight: 500;
+            margin: 24px 0 12px 0;
+            color: var(--ink);
+        }
+
+        .card {
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: clamp(16px, 2vw, 24px);
+            margin-bottom: 20px;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .formula-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+        }
+
+        .example-box {
+            background: #fefce8;
+            border: 1px solid #fde047;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+
+        .example-title {
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 8px;
+        }
+
+        .definition-box {
+            background: #eff6ff;
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+
+        .definition-title {
+            font-weight: 600;
+            color: #1d4ed8;
+            margin-bottom: 8px;
+        }
+
+        .image-container {
+            text-align: center;
+            margin: 24px 0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .image-caption {
+            font-size: 14px;
+            color: var(--muted);
+            margin-top: 8px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .math-symbol {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .highlight {
+            background: #fef3c7;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .toc {
+            background: #f8fafc;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 32px;
+        }
+
+        .toc-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 8px;
+        }
+
+        .toc-list a {
+            color: var(--muted);
+            text-decoration: none;
+            padding: 4px 0;
+            display: block;
+        }
+
+        .toc-list a:hover {
+            color: var(--ink);
+        }
+
+        .quiz-section {
+            background: #f0fdf4;
+            border: 1px solid #16a34a;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        .quiz-title {
+            font-weight: 600;
+            color: #15803d;
+            margin-bottom: 16px;
+        }
+
+        .quiz-question {
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .quiz-options {
+            list-style: none;
+            margin: 12px 0;
+        }
+
+        .quiz-options li {
+            margin: 8px 0;
+            padding: 8px;
+            background: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .quiz-options li:hover {
+            background: #dcfce7;
+        }
+
+        .property-box {
+            background: #fef7ff;
+            border: 1px solid #a855f7;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+
+        .property-title {
+            font-weight: 600;
+            color: #7c3aed;
+            margin-bottom: 8px;
+        }
+
+        .step-box {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: #0369a1;
+            margin-bottom: 8px;
+        }
+
+        .warning-box {
+            background: #fef2f2;
+            border: 1px solid #f87171;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+
+        .warning-title {
+            font-weight: 600;
+            color: #dc2626;
+            margin-bottom: 8px;
+        }
+
+        .truth-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .truth-table th {
+            background: #3b82f6;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .truth-table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .truth-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .logic-symbol {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #1d4ed8;
+        }
+
+        footer {
+            border-top: 1px solid var(--line);
+            padding: 32px 0;
+            margin-top: 48px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .footer-links a:hover {
+            color: var(--ink);
+        }
+        li {
+            list-style-type: none;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 16px;
+            }
+            
+            .nav-wrap {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-wrap container">
+            <a class="logo" href="#">คณิตศาสตร์</a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">หน้าแรก</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#features">
+                        เนื้อหาเรียน
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown">
+                        <a href="../m4.html" class="dropdown-item">มัธยมศึกษาปีที่ 4</a>
+                        <a href="../m5.html" class="dropdown-item">มัธยมศึกษาปีที่ 5</a>
+                        <a href="../m6.html" class="dropdown-item">มัธยมศึกษาปีที่ 6</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#exercises">แบบฝึกหัด</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">เกี่ยวกับเรา</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../index.html">หน้าแรก</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="../m4.html">ม.4</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>ตรรกศาสตร์</span>
+            </div>
+            <div class="hero-content">
+                <h1>ตรรกศาสตร์ (Mathematical Logic)</h1>
+                <p>บทพื้นฐานสำคัญของคณิตศาสตร์ ม.4 ที่เป็นรากฐานสำหรับการให้เหตุผลและการคิดเชิงตรรกะ</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="toc">
+                <div class="toc-title">สารบัญเนื้อหา</div>
+                <ul class="toc-list">
+                    <li><a href="#intro">1. ความรู้เบื้องต้นเกี่ยวกับตรรกศาสตร์</a></li>
+                    <li><a href="#proposition">2. ประพจน์ (Proposition)</a></li>
+                    <li><a href="#connectives">3. ตัวเชื่อมประพจน์</a></li>
+                    <li><a href="#truth-table">4. ตารางค่าความจริง</a></li>
+                    <li><a href="#equivalent">5. ประพจน์สมมูล</a></li>
+                    <li><a href="#tautology">6. สัจนิรันดร์และพยานนิรันดร์</a></li>
+                    <li><a href="#reasoning">7. การอ้างเหตุผล</a></li>
+                    <li><a href="#examples">8. ตัวอย่างโจทย์</a></li>
+                    <li><a href="#quiz">9. แบบฝึกหัด</a></li>
+                </ul>
+            </div>
+
+            <section id="intro" class="content-section">
+                <h2 class="section-title">1. ความรู้เบื้องต้นเกี่ยวกับตรรกศาสตร์</h2>
+                
+                <div class="definition-box">
+                    <div class="definition-title">นิยาม</div>
+                    <p><strong>ตรรกศาสตร์ (Mathematical Logic)</strong> คือ ระบบวิชาความรู้ที่เกี่ยวข้องกับความคิดและการให้เหตุผล ใช้เป็นเครื่องมือในการเข้าถึงหลักปรัชญาต่างๆ และเป็นพื้นฐานในหลายสาขาวิชา</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="subsection-title">ความสำคัญของตรรกศาสตร์</h3>
+                    <p>ตรรกศาสตร์เป็นเครื่องมือที่สำคัญใน:</p>
+                    <ul>
+                        <li>การให้เหตุผลทางคณิตศาสตร์</li>
+                        <li>การพิสูจน์ทฤษฎีบทต่างๆ</li>
+                        <li>การเขียนโปรแกรมคอมพิวเตอร์</li>
+                        <li>การแก้ไขปัญหาเชิงตรรกะ</li>
+                        <li>การคิดวิเคราะห์อย่างเป็นระบบ</li>
+                    </ul>
+                </div>
+
+                <div class="image-container">
+                    <img src="https://web.athometh.com/wp-content/uploads/2022/09/image-1-logic.webp" alt="ตรรกศาสตร์เบื้องต้น">
+                    <div class="image-caption">แผนภาพแสดงความสัมพันธ์ของตรรกศาสตร์กับสาขาวิชาต่างๆ</div>
+                </div>
+            </section>
+
+            <section id="proposition" class="content-section">
+                <h2 class="section-title">2. ประพจน์ (Proposition)</h2>
+                
+                <div class="definition-box">
+                    <div class="definition-title">นิยาม</div>
+                    <p><strong>ประพจน์ (Proposition)</strong> คือ ข้อความหรือประโยคที่มีค่าความจริง (T) หรือเท็จ (F) อย่างใดอย่างหนึ่งเท่านั้น และแน่นอน</p>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="example-box">
+                            <div class="example-title">ตัวอย่างประพจน์</div>
+                            <ul>
+                                <li>"2 + 3 = 5" (จริง)</li>
+                                <li>"กรุงเทพฯ เป็นเมืองหลวงของไทย" (จริง)</li>
+                                <li>"7 > 10" (เท็จ)</li>
+                                <li>"หิมะร้อน" (เท็จ)</li>
+                                <li>"วันนี้เป็นวันจันทร์" (จริงหรือเท็จ ขึ้นอยู่กับวัน)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="warning-box">
+                            <div class="warning-title">ไม่ใช่ประพจน์</div>
+                            <ul>
+                                <li>"x + 2 = 5" (ข้อความเปิด)</li>
+                                <li>"คุณชื่ออะไร?" (คำถาม)</li>
+                                <li>"ไปกินข้าวกัน!" (คำสั่ง)</li>
+                                <li>"ขอให้โชคดี" (คำอวยพร)</li>
+                                <li>"คืนนี้สวยจัง" (ความคิดเห็น)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="subsection-title">การแทนประพจน์ด้วยตัวอักษร</h3>
+                    <p>เราใช้ตัวอักษรพิมพ์เล็ก เช่น p, q, r, s เป็นต้น แทนประพจน์</p>
+                    
+                    <div class="example-box">
+                        <div class="example-title">ตัวอย่าง</div>
+                        <p>กำหนดให้</p>
+                        <ul>
+                            <li>p : "วันนี้ฝนตก"</li>
+                            <li>q : "ฉันจะไปโรงเรียน"</li>
+                            <li>r : "2 + 2 = 4"</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="image-container">
+                    <img src="https://web.athometh.com/wp-content/uploads/2022/09/image-2-logic.webp" alt="ประพจน์และการแทนค่า">
+                    <div class="image-caption">การแยกประเภทข้อความเป็นประพจน์และไม่ใช่ประพจน์</div>
+                </div>
+            </section>
+
+            <section id="connectives" class="content-section">
+                <h2 class="section-title">3. ตัวเชื่อมประพจน์</h2>
+                
+                <div class="card">
+                    <p>ตัวเชื่อมประพจน์เป็นเครื่องมือที่ใช้เชื่อมประพจน์สองประพจน์หรือมากกว่าให้เป็นประพจน์ใหม่</p>
+                </div>
+
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="property-box">
+                            <div class="property-title">1. การปฏิเสธ (Negation)</div>
+                            <p><strong>สัญลักษณ์:</strong> <span class="logic-symbol">∼p</span> หรือ <span class="logic-symbol">¬p</span></p>
+                            <p><strong>อ่านว่า:</strong> "ไม่ p" หรือ "not p"</p>
+                            <p><strong>ค่าความจริง:</strong> ตรงข้ามกับ p</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="property-box">
+                            <div class="property-title">2. การเชื่อม และ (Conjunction)</div>
+                            <p><strong>สัญลักษณ์:</strong> <span class="logic-symbol">p ∧ q</span></p>
+                            <p><strong>อ่านว่า:</strong> "p และ q"</p>
+                            <p><strong>ค่าความจริง:</strong> จริงก็ต่อเมื่อ p และ q จริงทั้งคู่</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="property-box">
+                            <div class="property-title">3. การเชื่อม หรือ (Disjunction)</div>
+                            <p><strong>สัญลักษณ์:</strong> <span class="logic-symbol">p ∨ q</span></p>
+                            <p><strong>อ่านว่า:</strong> "p หรือ q"</p>
+                            <p><strong>ค่าความจริง:</strong> จริงก็ต่อเมื่อ p หรือ q หรือทั้งคู่จริง</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="property-box">
+                            <div class="property-title">4. ถ้า...แล้ว (Implication)</div>
+                            <p><strong>สัญลักษณ์:</strong> <span class="logic-symbol">p → q</span></p>
+                            <p><strong>อ่านว่า:</strong> "ถ้า p แล้ว q"</p>
+                            <p><strong>ค่าความจริง:</strong> เท็จก็ต่อเมื่อ p จริงและ q เท็จ</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="property-box">
+                            <div class="property-title">5. ถ้าและต่อเมื่อ (Biconditional)</div>
+                            <p><strong>สัญลักษณ์:</strong> <span class="logic-symbol">p ↔ q</span></p>
+                            <p><strong>อ่านว่า:</strong> "p ถ้าและต่อเมื่อ q"</p>
+                            <p><strong>ค่าความจริง:</strong> จริงก็ต่อเมื่อ p และ q มีค่าความจริงเหมือนกัน</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="image-container">
+                    <img src="https://www.athometh.com/wp-content/uploads/2022/09/image-3-logic.webp" alt="ตัวเชื่อมประพจน์">
+                    <div class="image-caption">สรุปตัวเชื่อมประพจน์ทั้ง 5 แบบ พร้อมสัญลักษณ์และความหมาย</div>
+                </div>
+            </section>
+
+            <section id="truth-table" class="content-section">
+                <h2 class="section-title">4. ตารางค่าความจริง</h2>
+                
+                <div class="definition-box">
+                    <div class="definition-title">ตารางค่าความจริง</div>
+                    <p>เป็นตารางที่แสดงค่าความจริงของประพจน์ที่เกิดจากการเชื่อมประพจน์ในทุกกรณีที่เป็นไปได้</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="subsection-title">ตารางค่าความจริงพื้นฐาน</h3>
+                    <table class="truth-table">
+                        <thead>
+                            <tr>
+                                <th>p</th>
+                                <th>q</th>
+                                <th>∼p</th>
+                                <th>p ∧ q</th>
+                                <th>p ∨ q</th>
+                                <th>p → q</th>
+                                <th>p ↔ q</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>T</td>
+                                <td>T</td>
+                                <td>F</td>
+                                <td>T</td>
+                                <td>T</td>
+                                <td>T</td>
+                                <td>T</td>
+                            </tr>
+                            <tr>
+                                <td>T</td>
+                                <td>F</td>
+                                <td>F</td>
+                                <td>F</td>
+                                <td>T</td>
+                                <td>F</td>
+                                <td>F</td>
+                            </tr>
+                            <tr>
+                                <td>F</td>
+                                <td>T</td>
+                                <td>T</td>
+                                <td>F</td>
+                                <td>T</td>
+                                <td>T</td>
+                                <td>F</td>
+                            </tr>
+                            <tr>
+                                <td>F</td>
+                                <td>F</td>
+                                <td>T</td>
+                                <td>F</td>
+                                <td>F</td>
+                                <td>T</td>
+                                <td>T</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="step-box">
+                            <div class="step-title">วิธีการสร้างตารางค่าความจริง</div>
+                            <ol>
+                                <li>นับจำนวนตัวแปรประพจน์ (n ตัว)</li>
+                                <li>จำนวนแถวจะเป็น 2ⁿ แถว</li>
+                                <li>เขียนค่าความจริงของตัวแปรทั้งหมด</li>
+                                <li>คำนวณค่าความจริงของประพจน์ย่อยก่อน</li>
+                                <li>คำนวณค่าความจริงของประพจน์หลัก</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="example-box">
+                            <div class="example-title">ตัวอย่าง</div>
+                            <p>สร้างตารางค่าความจริงของ (p ∧ q) → ∼r</p>
+                            <p><strong>ตัวแปรประพจน์:</strong> p, q, r (3 ตัว)</p>
+                            <p><strong>จำนวนแถว:</strong> 2³ = 8 แถว</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="image-container">
+                    <img src="https://web.athometh.com/wp-content/uploads/2022/09/image-4-logic.webp" alt="ตารางค่าความจริง">
+                    <div class="image-caption">ตัวอย่างการสร้างตารางค่าความจริงสำหรับประพจน์ที่ซับซ้อน</div>
+                </div>
+
+                <div class="card">
+                    <h3 class="subsection-title">ตารางค่าความจริงสำหรับ 3 ตัวแปร</h3>
+                    <table class="truth-table">
+                        <thead>
+                            <tr>
+                                <th>p</th>
+                                <th>q</th>
+                                <th>r</th>
+                                <th>p ∧ q</th>
+                                <th>∼r</th>
+                                <th>(p ∧ q) → ∼r</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>T</td><td>T</td><td>T</td><td>T</td><td>F</td><td>F</td></tr>
+                            <tr><td>T</td><td>T</td><td>F</td><td>T</td><td>T</td><td>T</td></tr>
+                            <tr><td>T</td><td>F</td><td>T</td><td>F</td><td>F</td><td>T</td></tr>
+                            <tr><td>T</td><td>F</td><td>F</td><td>F</td><td>T</td><td>T</td></tr>
+                            <tr><td>F</td><td>T</td><td>T</td><td>F</td><td>F</td><td>T</td></tr>
+                            <tr><td>F</td><td>T</td><td>F</td><td>F</td><td>T</td><td>T</td></tr>
+                            <tr><td>F</td><td>F</td><td>T</td><td>F</td><td>F</td><td>T</td></tr>
+                            <tr><td>F</td><td>F</td><td>F</td><td>F</td><td>T</td><td>T</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="equivalent" class="content-section">
+                <h2 class="section-title">5. ประพจน์สมมูล</h2>
+                
+                <div class="definition-box">
+                    <div class="definition-title">ประพจน์สมมูล</div>
+                    <p>ประพจน์สองประพจน์ P และ Q เรียกว่า <strong>สมมูล</strong> ถ้าค่าความจริงของ P และ Q เหมือนกันในทุกกรณี เขียนแทนด้วย <span class="logic-symbol">P ≡ Q</span></p>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="property-box">
+                            <div class="property-title">กฎของ De Morgan</div>
+                            <ul>
+                                <li>∼(p ∧ q) ≡ (∼p ∨ ∼q)</li>
+                                <li>∼(p ∨ q) ≡ (∼p ∧ ∼q)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="property-box">
+                            <div class="property-title">กฎการแจกแจง (Distributive Laws)</div>
+                            <ul>
+                                <li>p ∧ (q ∨ r) ≡ (p ∧ q) ∨ (p ∧ r)</li>
+                                <li>p ∨ (q ∧ r) ≡ (p ∨ q) ∧ (p ∨ r)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="property-box">
+                            <div class="property-title">กฎการสับเปลี่ยน (Commutative Laws)</div>
+                            <ul>
+                                <li>p ∧ q ≡ q ∧ p</li>
+                                <li>p ∨ q ≡ q ∨ p</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="property-box">
+                            <div class="property-title">กฎการเปลี่ยนหมู่ (Associative Laws)</div>
+                            <ul>
+                                <li>(p ∧ q) ∧ r ≡ p ∧ (q ∧ r)</li>
+                                <li>(p ∨ q) ∨ r ≡ p ∨ (q ∨ r)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="property-box">
+                            <div class="property-title">กฎเอกลักษณ์ (Identity Laws)</div>
+                            <ul>
+                                <li>p ∧ T ≡ p</li>
+                                <li>p ∨ F ≡ p</li>
+                                <li>p ∧ F ≡ F</li>
+                                <li>p ∨ T ≡ T</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="property-box">
+                            <div class="property-title">กฎการปฏิเสธคู่ (Double Negation)</div>
+                            <ul>
+                                <li>∼(∼p) ≡ p</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="image-container">
+                    <img src="https://web.athometh.com/wp-content/uploads/2022/09/image-5-logic.webp" alt="กฎประพจน์สมมูล">
+                    <div class="image-caption">สรุปกฎสำคัญของประพจน์สมมูลในตรรกศาสตร์</div>
+                </div>
+
+                <div class="card">
+                    <h3 class="subsection-title">การแปลงประพจน์เงื่อนไข</h3>
+                    <div class="formula-box">
+                        p → q ≡ ∼p ∨ q<br>
+                        p ↔ q ≡ (p → q) ∧ (q → p)<br>
+                        p ↔ q ≡ (p ∧ q) ∨ (∼p ∧ ∼q)
+                    </div>
+                </div>
+            </section>
+
+            <section id="tautology" class="content-section">
+                <h2 class="section-title">6. สัจนิรันดร์และพยานนิรันดร์</h2>
+                
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="definition-box">
+                            <div class="definition-title">สัจนิรันดร์ (Tautology)</div>
+                            <p>ประพจน์ที่มีค่าความจริงเป็น T ในทุกกรณี</p>
+                            <div class="example-box">
+                                <div class="example-title">ตัวอย่าง</div>
+                                <ul>
+                                    <li>p ∨ ∼p</li>
+                                    <li>(p → q) ≡ (∼p ∨ q)</li>
+                                    <li>p → p</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="definition-box">
+                            <div class="definition-title">พยานนิรันดร์ (Contradiction)</div>
+                            <p>ประพจน์ที่มีค่าความจริงเป็น F ในทุกกรณี</p>
+                            <div class="example-box">
+                                <div class="example-title">ตัวอย่าง</div>
+                                <ul>
+                                    <li>p ∧ ∼p</li>
+                                    <li>(p ∧ q) ∧ ∼(p ∧ q)</li>
+                                    <li>p ∧ ∼p ∧ q</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="definition-box">
+                        <div class="definition-title">ประพจน์เสริมเติม (Contingency)</div>
+                        <p>ประพจน์ที่ไม่ใช่สัจนิรันดร์และไม่ใช่พยานนิรันดร์ (มีค่าความจริงทั้ง T และ F)</p>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <h3 class="subsection-title">การตรวจสอบสัจนิรันดร์และพยานนิรันดร์</h3>
+                    <div class="step-box">
+                        <div class="step-title">วิธีการ</div>
+                        <ol>
+                            <li>สร้างตารางค่าความจริง</li>
+                            <li>ตรวจสอบคอลัมน์สุดท้าย</li>
+                            <li>ถ้าเป็น T ทั้งหมด → สัจนิรันดร์</li>
+                            <li>ถ้าเป็น F ทั้งหมด → พยานนิรันดร์</li>
+                            <li>ถ้ามีทั้ง T และ F → ประพจน์เสริมเติม</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <section id="reasoning" class="content-section">
+                <h2 class="section-title">7. การอ้างเหตุผล</h2>
+                
+                <div class="definition-box">
+                    <div class="definition-title">การอ้างเหตุผล (Logical Reasoning)</div>
+                    <p>กระบวนการหาผลสรุปจากข้อมูลหรือสมมติฐานที่กำหนดให้ โดยใช้หลักการของตรรกศาสตร์</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="subsection-title">รูปแบบการอ้างเหตุผลที่สำคัญ</h3>
+                    
+                    <div class="grid-2">
+                        <div class="card">
+                            <div class="property-box">
+                                <div class="property-title">Modus Ponens</div>
+                                <p><strong>รูปแบบ:</strong></p>
+                                <div class="formula-box">
+                                    ถ้า p → q และ p จริง<br>
+                                    แล้ว q จริง
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="property-box">
+                                <div class="property-title">Modus Tollens</div>
+                                <p><strong>รูปแบบ:</strong></p>
+                                <div class="formula-box">
+                                    ถ้า p → q และ ∼q จริง<br>
+                                    แล้ว ∼p จริง
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="property-box">
+                                <div class="property-title">Hypothetical Syllogism</div>
+                                <p><strong>รูปแบบ:</strong></p>
+                                <div class="formula-box">
+                                    ถ้า p → q และ q → r จริง<br>
+                                    แล้ว p → r จริง
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="property-box">
+                                <div class="property-title">Disjunctive Syllogism</div>
+                                <p><strong>รูปแบบ:</strong></p>
+                                <div class="formula-box">
+                                    ถ้า p ∨ q และ ∼p จริง<br>
+                                    แล้ว q จริง
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="image-container">
+                    <img src="https://www.smartmathpro.com/wp-content/uploads/2023/06/%E0%B8%95%E0%B8%A3%E0%B8%A3%E0%B8%81%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C-%E0%B8%A1.4_9.jpg" alt="การอ้างเหตุผล">
+                    <div class="image-caption">รูปแบบการอ้างเหตุผลที่ใช้บ่อยในตรรกศาสตร์</div>
+                </div>
+
+                <div class="card">
+                    <h3 class="subsection-title">การตรวจสอบความถูกต้องของการอ้างเหตุผล</h3>
+                    <div class="step-box">
+                        <div class="step-title">วิธีการ</div>
+                        <ol>
+                            <li>เขียนประพจน์ในรูป (สมมติฐาน₁ ∧ สมมติฐาน₂ ∧ ...) → ผลสรุป</li>
+                            <li>สร้างตารางค่าความจริง</li>
+                            <li>ถ้าประพจน์นี้เป็นสัจนิรันดร์ การอ้างเหตุผลถูกต้อง</li>
+                            <li>ถ้าไม่เป็นสัจนิรันดร์ การอ้างเหตุผลไม่ถูกต้อง</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <section id="examples" class="content-section">
+                <h2 class="section-title">8. ตัวอย่างโจทย์</h2>
+                
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="example-box">
+                            <div class="example-title">ตัวอย่างที่ 1: การสร้างตารางค่าความจริง</div>
+                            <p><strong>โจทย์:</strong> สร้างตารางค่าความจริงของ (p → q) ∧ (∼q → ∼p)</p>
+                            
+                            <p><strong>วิธีทำ:</strong></p>
+                            <table class="truth-table" style="font-size: 14px;">
+                                <thead>
+                                    <tr>
+                                        <th>p</th>
+                                        <th>q</th>
+                                        <th>∼p</th>
+                                        <th>∼q</th>
+                                        <th>p → q</th>
+                                        <th>∼q → ∼p</th>
+                                        <th>(p → q) ∧ (∼q → ∼p)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>T</td><td>T</td><td>F</td><td>F</td><td>T</td><td>T</td><td>T</td></tr>
+                                    <tr><td>T</td><td>F</td><td>F</td><td>T</td><td>F</td><td>F</td><td>F</td></tr>
+                                    <tr><td>F</td><td>T</td><td>T</td><td>F</td><td>T</td><td>T</td><td>T</td></tr>
+                                    <tr><td>F</td><td>F</td><td>T</td><td>T</td><td>T</td><td>T</td><td>T</td></tr>
+                                </tbody>
+                            </table>
+                            
+                            <p><strong>สังเกต:</strong> (p → q) ≡ (∼q → ∼p) เป็นประพจน์สมมูล</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="example-box">
+                            <div class="example-title">ตัวอย่างที่ 2: การพิสูจน์ประพจน์สมมูล</div>
+                            <p><strong>โจทย์:</strong> พิสูจน์ว่า ∼(p ∧ q) ≡ (∼p ∨ ∼q)</p>
+                            
+                            <p><strong>วิธีทำ:</strong> ใช้ตารางค่าความจริง</p>
+                            <table class="truth-table" style="font-size: 14px;">
+                                <thead>
+                                    <tr>
+                                        <th>p</th>
+                                        <th>q</th>
+                                        <th>p ∧ q</th>
+                                        <th>∼(p ∧ q)</th>
+                                        <th>∼p</th>
+                                        <th>∼q</th>
+                                        <th>∼p ∨ ∼q</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>T</td><td>T</td><td>T</td><td>F</td><td>F</td><td>F</td><td>F</td></tr>
+                                    <tr><td>T</td><td>F</td><td>F</td><td>T</td><td>F</td><td>T</td><td>T</td></tr>
+                                    <tr><td>F</td><td>T</td><td>F</td><td>T</td><td>T</td><td>F</td><td>T</td></tr>
+                                    <tr><td>F</td><td>F</td><td>F</td><td>T</td><td>T</td><td>T</td><td>T</td></tr>
+                                </tbody>
+                            </table>
+                            
+                            <p><strong>สรุป:</strong> คอลัมน์ที่ 4 และ 7 เหมือนกัน ดังนั้น ∼(p ∧ q) ≡ (∼p ∨ ∼q)</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="example-box">
+                            <div class="example-title">ตัวอย่างที่ 3: การตรวจสอบสัจนิรันดร์</div>
+                            <p><strong>โจทย์:</strong> ตรวจสอบว่า (p → q) → ((∼q → ∼p)) เป็นสัจนิรันดร์หรือไม่</p>
+                            
+                            <p><strong>วิธีทำ:</strong></p>
+                            <ol>
+                                <li>สร้างตารางค่าความจริง</li>
+                                <li>เนื่องจาก (p → q) ≡ (∼q → ∼p)</li>
+                                <li>ประพจน์จะเป็น (p → q) → (p → q)</li>
+                                <li>ซึ่งมีรูป A → A ที่เป็นสัจนิรันดร์เสมอ</li>
+                            </ol>
+                            
+                            <p><strong>คำตอบ:</strong> ใช่ เป็นสัจนิรันดร์</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="example-box">
+                            <div class="example-title">ตัวอย่างที่ 4: การอ้างเหตุผล</div>
+                            <p><strong>โจทย์:</strong> ตรวจสอบการอ้างเหตุผลต่อไปนี้</p>
+                            <p>ถ้าฉันเรียนดี ฉันจะได้เกรด A</p>
+                            <p>ฉันไม่ได้เกรด A</p>
+                            <p>ดังนั้น ฉันไม่ได้เรียนดี</p>
+                            
+                            <p><strong>วิธีทำ:</strong></p>
+                            <p>กำหนดให้ p: ฉันเรียนดี, q: ฉันได้เกรด A</p>
+                            <p>สมมติฐาน: p → q, ∼q</p>
+                            <p>ผลสรุป: ∼p</p>
+                            <p>รูปแบบ: [(p → q) ∧ ∼q] → ∼p</p>
+                            
+                            <p><strong>คำตอบ:</strong> นี้คือ Modus Tollens ซึ่งถูกต้อง</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="image-container">
+                    <img src="https://www.lemon8-app.com/seo/image?item_id=7250779247332164098&index=2&sign=6b43c7f5b996a1d5f15495a42e22054d" alt="รวมโจทย์ตรรกศาสตร์">
+                    <div class="image-caption">รวมโจทย์ตรรกศาสตร์พร้อมเฉลยละเอียด</div>
+                </div>
+            </section>
+
+            <section id="quiz" class="content-section">
+                <h2 class="section-title">9. แบบฝึกหัด</h2>
+                
+                <div class="quiz-section">
+                    <div class="quiz-title"><i class="fas fa-question-circle"></i> แบบทดสอบความเข้าใจ</div>
+                    
+                    <div class="quiz-question">
+                        <strong>ข้อ 1:</strong> ข้อใดต่อไปนี้เป็นประพจน์?
+                    </div>
+                    <ul class="quiz-options">
+                        <li onclick="selectAnswer(this, false)">ก) คุณชื่อะไร?</li>
+                        <li onclick="selectAnswer(this, true)">ข) 5 + 3 = 8</li>
+                        <li onclick="selectAnswer(this, false)">ค) x + 2 > 10</li>
+                        <li onclick="selectAnswer(this, false)">ง) ช่วยปิดประตูหน่อย</li>
+                    </ul>
+                    
+                    <div class="quiz-question">
+                        <strong>ข้อ 2:</strong> ถ้า p เท็จและ q จริง แล้ว p → q จะมีค่าความจริงเป็นอะไร?
+                    </div>
+                    <ul class="quiz-options">
+                        <li onclick="selectAnswer(this, true)">ก) จริง</li>
+                        <li onclick="selectAnswer(this, false)">ข) เท็จ</li>
+                        <li onclick="selectAnswer(this, false)">ค) ไม่สามารถหาได้</li>
+                        <li onclick="selectAnswer(this, false)">ง) ขึ้นอยู่กับบริบท</li>
+                    </ul>
+
+                    <div class="quiz-question">
+                        <strong>ข้อ 3:</strong> ประพจน์ใดต่อไปนี้เป็นสัจนิรันดร์?
+                    </div>
+                    <ul class="quiz-options">
+                        <li onclick="selectAnswer(this, false)">ก) p ∧ q</li>
+                        <li onclick="selectAnswer(this, true)">ข) p ∨ ∼p</li>
+                        <li onclick="selectAnswer(this, false)">ค) p → q</li>
+                        <li onclick="selectAnswer(this, false)">ง) p ∧ ∼p</li>
+                    </ul>
+
+                    <div class="quiz-question">
+                        <strong>ข้อ 4:</strong> กฎของ De Morgan ข้อใดถูกต้อง?
+                    </div>
+                    <ul class="quiz-options">
+                        <li onclick="selectAnswer(this, true)">ก) ∼(p ∧ q) ≡ (∼p ∨ ∼q)</li>
+                        <li onclick="selectAnswer(this, false)">ข) ∼(p ∧ q) ≡ (∼p ∧ ∼q)</li>
+                        <li onclick="selectAnswer(this, false)">ค) ∼(p ∨ q) ≡ (∼p ∨ ∼q)</li>
+                        <li onclick="selectAnswer(this, false)">ง) ∼(p → q) ≡ (∼p → ∼q)</li>
+                    </ul>
+
+                    <div class="quiz-question">
+                        <strong>ข้อ 5:</strong> การอ้างเหตุผลแบบ Modus Ponens คือ?
+                    </div>
+                    <ul class="quiz-options">
+                        <li onclick="selectAnswer(this, true)">ก) จาก p → q และ p ได้ q</li>
+                        <li onclick="selectAnswer(this, false)">ข) จาก p → q และ ∼q ได้ ∼p</li>
+                        <li onclick="selectAnswer(this, false)">ค) จาก p → q และ q ได้ p</li>
+                        <li onclick="selectAnswer(this, false)">ง) จาก p → q และ ∼p ได้ ∼q</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3 class="subsection-title">แบบฝึกหัดเพิ่มเติม</h3>
+                    <p><strong>ข้อ 6:</strong> สร้างตารางค่าความจริงของ (p ∧ q) → (p ∨ q)</p>
+                    <p><strong>ข้อ 7:</strong> พิสูจน์ว่า (p → q) ≡ (∼p ∨ q)</p>
+                    <p><strong>ข้อ 8:</strong> ตรวจสอบว่า [(p → q) ∧ (q → r)] → (p → r) เป็นสัจนิรันดร์หรือไม่</p>
+                    <p><strong>ข้อ 9:</strong> เขียนการปฏิเสธของ "ถ้าฝนตก แล้วถนนเปียก"</p>
+                    <p><strong>ข้อ 10:</strong> ตรวจสอบการอ้างเหตุผล: "ถ้าเขาเรียนดี เขาจะสอบผ่าน เขาสอบผ่าน ดังนั้นเขาเรียนดี"</p>
+                </div>
+
+                <div class="definition-box">
+                    <div class="definition-title">เฉลยแบบฝึกหัดเพิ่มเติม</div>
+                    <p><strong>ข้อ 6:</strong> เป็นสัจนิรันดร์ (เพราะ p ∧ q → p ∨ q เป็นจริงเสมอ)</p>
+                    <p><strong>ข้อ 7:</strong> ใช้ตารางค่าความจริงจะได้ผลลัพธ์เหมือนกันทุกกรณี</p>
+                    <p><strong>ข้อ 8:</strong> เป็นสัจนิรันดร์ (นี้คือ Hypothetical Syllogism)</p>
+                    <p><strong>ข้อ 9:</strong> "ฝนตก และ ถนนไม่เปียก" หรือ p ∧ ∼q</p>
+                    <p><strong>ข้อ 10:</strong> ไม่ถูกต้อง (นี้คือ Fallacy of Affirming the Consequent)</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="subsection-title">แนวข้อสอบ O-NET และ PAT</h3>
+                    <div class="step-box">
+                        <div class="step-title">หัวข้อที่ควรทำความเข้าใจ</div>
+                        <ul>
+                            <li>การสร้างตารางค่าความจริงสำหรับประพจน์ที่ซับซ้อน</li>
+                            <li>การใช้กฎของ De Morgan ในการแปลงประพจน์</li>
+                            <li>การตรวจสอบสัจนิรันดร์และพยานนิรันดร์</li>
+                            <li>การอ้างเหตุผลและการตรวจสอบความถูกต้อง</li>
+                            <li>การแปลงประโยคภาษาไทยเป็นสัญลักษณ์ตรรกศาสตร์</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="image-container">
+                    <img src="https://www.smartmathpro.com/wp-content/uploads/2023/06/%E0%B8%95%E0%B8%A3%E0%B8%A3%E0%B8%81%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C-%E0%B8%A1.4_3.jpg" alt="เตรียมสอบตรรกศาสตร์">
+                    <div class="image-caption">เทคนิคและเคล็ดลับในการสอบตรรกศาสตร์</div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">สรุปและการประยุกต์ใช้</h2>
+                
+                <div class="card">
+                    <h3 class="subsection-title">ประโยชน์ของตรรกศาสตร์ในชีวิตประจำวัน</h3>
+                    <div class="grid-2">
+                        <div class="property-box">
+                            <div class="property-title">ด้านการศึกษา</div>
+                            <ul>
+                                <li>การพิสูจน์ทางคณิตศาสตร์</li>
+                                <li>การวิเคราะห์ข้อความและงานเขียน</li>
+                                <li>การให้เหตุผลในการอภิปราย</li>
+                            </ul>
+                        </div>
+
+                        <div class="property-box">
+                            <div class="property-title">ด้านเทคโนโลยี</div>
+                            <ul>
+                                <li>การเขียนโปรแกรมและอัลกอริทึม</li>
+                                <li>การออกแบบระบบฐานข้อมูล</li>
+                                <li>การพัฒนาปัญญาประดิษฐ์</li>
+                            </ul>
+                        </div>
+
+                        <div class="property-box">
+                            <div class="property-title">ด้านการคิดวิเคราะห์</div>
+                            <ul>
+                                <li>การตัดสินใจอย่างมีเหตุผล</li>
+                                <li>การแยกแยะข้อมูลจริงเท็จ</li>
+                                <li>การแก้ปัญหาอย่างเป็นระบบ</li>
+                            </ul>
+                        </div>
+
+                        <div class="property-box">
+                            <div class="property-title">ด้านวิชาชีพ</div>
+                            <ul>
+                                <li>กฎหมาย: การโต้แย้งในศาล</li>
+                                <li>การแพทย์: การวินิจฉัยโรค</li>
+                                <li>ธุรกิจ: การวิเคราะห์ความเสี่ยง</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="subsection-title">เทคนิคการจำและการใช้งาน</h3>
+                    <div class="step-box">
+                        <div class="step-title">เคล็ดลับสำคัญ</div>
+                        <ol>
+                            <li><strong>การจำตารางค่าความจริง:</strong> จำว่า "และ" จริงเมื่อทั้งคู่จริง "หรือ" เท็จเมื่อทั้งคู่เท็จ</li>
+                            <li><strong>ประพจน์เงื่อนไข:</strong> p → q เท็จเฉพาะเมื่อ p จริง q เท็จ</li>
+                            <li><strong>กฎ De Morgan:</strong> "ไม่ และ" = "ไม่ หรือ ไม่", "ไม่ หรือ" = "ไม่ และ ไม่"</li>
+                            <li><strong>สัจนิรันดร์:</strong> มักเป็น p ∨ ∼p หรือ A → A</li>
+                            <li><strong>พยานนิรันดร์:</strong> มักเป็น p ∧ ∼p</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <div class="warning-title">ข้อผิดพลาดที่พบบ่อย</div>
+                    <ul>
+                        <li>สับสนระหว่าง "หรือ" ในภาษาไทยกับ "หรือ" ทางตรรกศาสตร์</li>
+                        <li>คิดว่า p → q เหมือนกับ q → p</li>
+                        <li>ใช้ Affirming the Consequent ซึ่งเป็นการอ้างเหตุผลผิด</li>
+                        <li>สับสนระหว่างประพจน์สมมูลกับประพจน์เงื่อนไข</li>
+                        <li>ลืมใช้วงเล็บในประพจน์ที่ซับซ้อน</li>
+                    </ul>
+                </div>
+
+                <div class="image-container">
+                    <img src="https://www.smartmathpro.com/wp-content/uploads/2023/06/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%9A%E0%B8%97%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1_%E0%B8%95%E0%B8%A3%E0%B8%A3%E0%B8%81%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C.jpg" alt="สรุปตรรกศาสตร์">
+                    <div class="image-caption">แผนผังสรุปเนื้อหาตรรกศาสตร์ทั้งหมด</div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#">นโยบายความเป็นส่วนตัว</a>
+                    <a href="#">เงื่อนไขการใช้งาน</a>
+                    <a href="#">ติดต่อเรา</a>
+                </div>
+                <p style="color: var(--muted); font-size: 14px;">© 2025 เว็บไซต์คณิตศาสตร์มัธยมปลาย</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        function selectAnswer(element, isCorrect) {
+            const siblings = element.parentElement.querySelectorAll('li');
+            siblings.forEach(sibling => {
+                sibling.style.backgroundColor = '#fff';
+                sibling.style.color = '#000';
+            });
+
+            if (isCorrect) {
+                element.style.backgroundColor = '#dcfce7';
+                element.style.color = '#15803d';
+
+                setTimeout(() => {
+                    const explanation = element.getAttribute('data-explanation');
+                    if (explanation) {
+                        alert('ถูกต้อง! ' + explanation);
+                    }
+                }, 500);
+            } else {
+                element.style.backgroundColor = '#fecaca';
+                element.style.color = '#dc2626';
+                
+                setTimeout(() => {
+                    alert('ไม่ถูกต้อง ลองใหม่อีกครั้ง');
+                }, 500);
+            }
+        }
+
+        function createInteractiveTruthTable() {
+            const tables = document.querySelectorAll('.truth-table');
+            tables.forEach(table => {
+                const rows = table.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    row.addEventListener('mouseenter', function() {
+                        this.style.background = '#e0f2fe';
+                        this.style.transform = 'scale(1.02)';
+                        this.style.transition = 'all 0.2s ease';
+                    });
+                    
+                    row.addEventListener('mouseleave', function() {
+                        this.style.background = '';
+                        this.style.transform = '';
+                    });
+                });
+            });
+        }
+
+        function animateLogicSymbols() {
+            const symbols = document.querySelectorAll('.logic-symbol');
+            symbols.forEach(symbol => {
+                symbol.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.2)';
+                    this.style.color = '#3b82f6';
+                    this.style.transition = 'all 0.2s ease';
+                });
+                
+                symbol.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                    this.style.color = '#1d4ed8';
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+
+            createInteractiveTruthTable();
+            animateLogicSymbols();
+
+            const formulaBoxes = document.querySelectorAll('.formula-box');
+            formulaBoxes.forEach(box => {
+                box.addEventListener('click', function() {
+                    this.style.background = '#e0f2fe';
+                    setTimeout(() => {
+                        this.style.background = '#f8fafc';
+                    }, 200);
+                });
+            });
+        });
+
+        let completedSections = new Set();
+        
+        function markSectionComplete(sectionId) {
+            completedSections.add(sectionId);
+            updateProgress();
+        }
+        
+        function updateProgress() {
+            const totalSections = 9;
+            const progress = (completedSections.size / totalSections) * 100;
+            console.log(`ความคืบหน้า: ${progress.toFixed(1)}%`);
+        }
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+                    const sectionId = entry.target.id;
+                    if (sectionId) {
+                        markSectionComplete(sectionId);
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        document.querySelectorAll('section[id]').forEach(section => {
+            sectionObserver.observe(section);
+        });
+    </script>
+</body>
+</html>
